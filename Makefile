@@ -29,8 +29,10 @@ OBJS += main.o
 
 
 
-# 使用了编译优化和硬件浮点数
+# 使用了编译优化和硬件浮点
+
 CFLAGS += -mcpu=cortex-m4 -mthumb -Wall 
+
 #CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
 CFLAGS += -Os
 CFLAGS += -ffunction-sections -fdata-sections
