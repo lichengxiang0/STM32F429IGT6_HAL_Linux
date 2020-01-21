@@ -17,7 +17,8 @@ OBJS += stlib/src/stm32f4xx_hal_rcc.o stlib/src/stm32f4xx_hal_rcc_ex.o
 OBJS += stlib/src/stm32f4xx_hal_gpio.o 
 OBJS += stlib/src/stm32f4xx_hal_pwr.o stlib/src/stm32f4xx_hal_pwr_ex.o
 OBJS += HARDWARE/LED/led.o HARDWARE/TICK/tick.o HARDWARE/SYS/sys.o
-OBJS += main.o
+#OBJS += main.o
+OBJS += system_main.o
 
 
 #CFLAGS += -mcpu=cortex-m4 -mthumb -Wall
@@ -32,12 +33,15 @@ OBJS += main.o
 CFLAGS += -mcpu=cortex-m4 -mthumb -Wall
 CFLAGS += -Os
 CFLAGS += -ffunction-sections -fdata-sections
+#CFLAGS += -specs=nano.specs -specs=nosys.specs
 
 LFLAGS += -mcpu=cortex-m4 -mthumb
 LFLAGS += -Wl,--gc-sections 
+LFLAGS += -specs=nano.specs -specs=nosys.specs
 
 all:$(OBJS)
-	@arm-none-eabi-gcc $(LFLAGS) $^ -Tstlib/STM32F429IGT6_FLASH.ld -o blink.elf
+#	@arm-none-eabi-gcc $(LFLAGS) $^ -Tstlib/STM32F429IGT6_FLASH.ld -o blink.elf
+	@arm-none-eabi-g++ $(LFLAGS) $^ -Tstlib/STM32F429IGT6_FLASH.ld -o blink.elf
 	@arm-none-eabi-objcopy -O binary -S blink.elf blink.bin
 	@arm-none-eabi-size blink.elf
 	@arm-none-eabi-objdump -S blink.elf > blink.dis
@@ -45,7 +49,8 @@ all:$(OBJS)
 	@arm-none-eabi-gcc $(CFLAGS) -c $< -o $@
 %.o:%.c
 	@arm-none-eabi-gcc $(CFLAGS) $(DEFS) $(INCS) -c $< -o $@
-	
+%.o:%.cpp
+	@arm-none-eabi-g++ $(CFLAGS) $(DEFS) $(INCS) -c $< -o $@	
 
 
 clean:

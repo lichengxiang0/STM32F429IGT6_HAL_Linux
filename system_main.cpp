@@ -6,11 +6,11 @@
  */
 
 
-
+extern "C"{
 #include "led.h"
 #include "tick.h"
 #include "sys.h"
-
+}
 
 
 int main(void)
@@ -27,7 +27,7 @@ int main(void)
 	{
 
 		LED0 = !LED0;
-		LED1 = !LED1;
+//		LED1 = !LED1;
 		delay_ms(500);
 
 	}
