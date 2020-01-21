@@ -29,21 +29,15 @@ OBJS += main.o
 
 
 
-# 使用了编译优化和硬件浮点
-
-CFLAGS += -mcpu=cortex-m4 -mthumb -Wall 
-
-#CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
+CFLAGS += -mcpu=cortex-m4 -mthumb -Wall
 CFLAGS += -Os
 CFLAGS += -ffunction-sections -fdata-sections
 
 LFLAGS += -mcpu=cortex-m4 -mthumb
-#LFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
 LFLAGS += -Wl,--gc-sections 
 
 all:$(OBJS)
 	@arm-none-eabi-gcc $(LFLAGS) $^ -Tstlib/STM32F429IGT6_FLASH.ld -o blink.elf
-#	@arm-none-eabi-ld
 	@arm-none-eabi-objcopy -O binary -S blink.elf blink.bin
 	@arm-none-eabi-size blink.elf
 	@arm-none-eabi-objdump -S blink.elf > blink.dis
